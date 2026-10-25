@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clipnotate</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Clipnotate</h1>
+      <span id="status" class="status" data-state="connecting">Connecting…</span>
+    </div>
+    <div class="actions">
+      <span id="count" class="count"></span>
+      <label class="toggle" title="While paused, copied text is ignored">
+        <input type="checkbox" id="pause"> Pause capture
+      </label>
+      <button id="undo" type="button" title="Remove the most recently added record">
+        Undo latest <kbd>{{ shortcut }}</kbd>
+      </button>
+      <button id="quit" type="button" class="quiet">Quit</button>
+    </div>
+  </header>
+
+  <main>
+    <p class="help">
+      Copy text in any application to capture it with a screenshot.
+      Select part of a sentence (or click inside a word) and press <kbd>{{ annotate_shortcut }}</kbd> to annotate it;
+      the <strong>Annotate</strong> button and <kbd>Enter</kbd> work too.
+      Press <kbd>{{ shortcut }}</kbd> to remove the most recently added record.
+      Text copied from this page is never recorded.
+    </p>
+
+    <nav class="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-records" data-view="records" aria-selected="true">Records</button>
+      <button type="button" role="tab" id="tab-json" data-view="json" aria-selected="false">JSON</button>
+    </nav>
+
+    <section id="view-records" role="tabpanel" aria-labelledby="tab-records">
+      <p id="empty" class="empty" hidden>No records yet. Copy some text in any application.</p>
+      <div id="records" class="records"></div>
+    </section>
+
+    <section id="view-json" role="tabpanel" aria-labelledby="tab-json" hidden>
+      <div class="json-bar">
+        <button id="copy-json" type="button" class="primary">Copy JSON</button>
+        <a href="/records.json" target="_blank" rel="noopener">Open raw file</a>
+        <span class="json-path"><code>{{ records_file }}</code></span>
+      </div>
+      <textarea id="json-text" class="json-text" readonly spellcheck="false" aria-label="Contents of records.json"></textarea>
+    </section>
+  </main>
+
+  <footer>
+    <div>Data file: <code>{{ records_file }}</code></div>
+    <div>Screenshots: <code>{{ screenshots_dir }}</code></div>
+  </footer>
+
+  <button id="annotate-pop" class="annotate-pop" type="button" hidden></button>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <dialog id="quit-dialog" class="modal" aria-labelledby="quit-title">
+    <form method="dialog">
+      <h2 id="quit-title">Quit Clipnotate?</h2>
+      <p>Clipboard capture will stop. What should happen to the dataset file?</p>
+      <p><code>{{ records_file }}</code> · <span id="quit-count"></span></p>
+      <label class="check">
+        <input type="checkbox" id="quit-shots">
+        When discarding, also delete the screenshots
+      </label>
+      <div class="modal-actions">
+        <button type="button" id="quit-copy" class="quiet">Copy JSON first</button>
+        <span class="spacer"></span>
+        <button value="cancel" id="quit-cancel">Cancel</button>
+        <button type="button" id="quit-discard" class="danger">Discard file &amp; quit</button>
+        <button type="button" id="quit-keep" class="primary" autofocus>Keep file &amp; quit</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="stopped" class="stopped" hidden>
+    <div class="stopped-box">
+      <h2>Clipnotate has stopped</h2>
+      <p id="stopped-text">Your records and screenshots are saved on disk. You can close this tab.</p>
+    </div>
+  </div>
+
+  <script>window.CLIPNOTATE = {{ {"shortcut": shortcut, "annotateShortcut": annotate_shortcut, "recordsFile": records_file} | tojson }};</script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
