@@ -2,7 +2,7 @@ import socket
 
 import pytest
 
-from clipnotate.app import (
+from lazy_anki_language_cards.app import (
     DEFAULT_PORT,
     Application,
     QuitChoice,
@@ -11,7 +11,7 @@ from clipnotate.app import (
     open_listening_socket,
     parse_args,
 )
-from clipnotate.platform_env import detect_session
+from lazy_anki_language_cards.platform_env import detect_session
 
 
 def test_explicit_busy_port_gives_clear_error():
@@ -90,8 +90,8 @@ def test_ask_quit_choice(replies, expected, tmp_path):
 
 
 def make_app_with_data(tmp_path):
-    from clipnotate.screenshot import ScreenshotCapturer
-    from clipnotate.storage import RecordStore
+    from lazy_anki_language_cards.screenshot import ScreenshotCapturer
+    from lazy_anki_language_cards.storage import RecordStore
 
     class Writer:
         name = "w"

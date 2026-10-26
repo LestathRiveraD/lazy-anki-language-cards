@@ -3,7 +3,7 @@ import threading
 
 import pytest
 
-from clipnotate.storage import InvalidAnnotation, RecordNotFound, RecordStore, StorageError
+from lazy_anki_language_cards.storage import InvalidAnnotation, RecordNotFound, RecordStore, StorageError
 
 
 def read_file(store):
@@ -118,7 +118,7 @@ def test_invalid_schema_is_reported(tmp_path):
 
 def test_failed_write_leaves_memory_and_file_unchanged(store, monkeypatch):
     store.add("kept", None)
-    import clipnotate.storage as storage_module
+    import lazy_anki_language_cards.storage as storage_module
 
     def boom(*_args, **_kwargs):
         raise OSError("disk full")

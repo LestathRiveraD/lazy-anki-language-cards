@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clipnotate</title>
+  <title>lazy-anki-language-cards</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
-      <h1>Clipnotate</h1>
+      <h1>lazy-anki-language-cards</h1>
       <span id="status" class="status" data-state="connecting">Connecting…</span>
     </div>
     <div class="actions">
@@ -63,7 +63,7 @@
 
   <dialog id="quit-dialog" class="modal" aria-labelledby="quit-title">
     <form method="dialog">
-      <h2 id="quit-title">Quit Clipnotate?</h2>
+      <h2 id="quit-title">Quit lazy-anki-language-cards?</h2>
       <p>Clipboard capture will stop. What should happen to the dataset file?</p>
       <p><code>{{ records_file }}</code> · <span id="quit-count"></span></p>
       <label class="check">
@@ -82,12 +82,12 @@
 
   <div id="stopped" class="stopped" hidden>
     <div class="stopped-box">
-      <h2>Clipnotate has stopped</h2>
+      <h2>lazy-anki-language-cards has stopped</h2>
       <p id="stopped-text">Your records and screenshots are saved on disk. You can close this tab.</p>
     </div>
   </div>
 
-  <script>window.CLIPNOTATE = {{ {"shortcut": shortcut, "annotateShortcut": annotate_shortcut, "recordsFile": records_file} | tojson }};</script>
+  <script>window.LAZY_ANKI_LANGUAGE_CARDS = {{ {"shortcut": shortcut, "annotateShortcut": annotate_shortcut, "recordsFile": records_file} | tojson }};</script>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

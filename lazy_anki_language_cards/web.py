@@ -18,7 +18,7 @@ from .storage import InvalidAnnotation, RecordNotFound, RecordStore, StorageErro
 # State-changing requests must carry this header. Browsers refuse to send a custom
 # header cross-origin without a CORS preflight (which this server never approves),
 # so other websites cannot drive the API.
-API_HEADER = "X-Clipnotate"
+API_HEADER = "X-Lazy-Anki-Language-Cards"
 UNDO_SHORTCUT = "Ctrl+Z"
 ANNOTATE_SHORTCUT = "A"
 KEEPALIVE_SECONDS = 15.0

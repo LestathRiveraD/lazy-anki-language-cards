@@ -280,7 +280,7 @@ class RecordStore:
 
     def _commit(self, records: list[_Record]) -> None:
         if self._closed:
-            raise StorageError("The dataset is closed because Clipnotate is shutting down.")
+            raise StorageError("The dataset is closed because lazy-anki-language-cards is shutting down.")
         # Write first: memory only changes if the file was saved successfully.
         self._write(records)
         self._records = records

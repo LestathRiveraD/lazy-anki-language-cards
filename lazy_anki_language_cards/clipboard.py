@@ -143,7 +143,7 @@ def create_clipboard(session: DesktopSession, preference: str = "auto") -> Comma
         if has_xclip:
             return XclipClipboard()
         raise ClipboardUnavailable(
-            "No clipboard tool found. Clipnotate reads the X11 clipboard with xclip:\n"
+            "No clipboard tool found. lazy-anki-language-cards reads the X11 clipboard with xclip:\n"
             "    sudo apt install xclip"
         )
 

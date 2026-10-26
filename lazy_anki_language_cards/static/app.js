@@ -1,8 +1,8 @@
 (() => {
   "use strict";
 
-  const API_HEADERS = { "X-Clipnotate": "1" };
-  const CONFIG = window.CLIPNOTATE || {};
+  const API_HEADERS = { "X-Lazy-Anki-Language-Cards": "1" };
+  const CONFIG = window.LAZY_ANKI_LANGUAGE_CARDS || {};
   const SHORTCUT = CONFIG.shortcut || "Ctrl+Z";
   const ANNOTATE_KEY = (CONFIG.annotateShortcut || "A").toLowerCase();
 
@@ -516,7 +516,7 @@
     jsonViewEl.hidden = state.view !== "json";
     hidePopover();
     if (state.view === "json") refreshJson();
-    try { localStorage.setItem("clipnotate.view", state.view); } catch (_) { /* storage unavailable */ }
+    try { localStorage.setItem("lazy-anki-language-cards.view", state.view); } catch (_) { /* storage unavailable */ }
   }
 
   // ------------------------------------------------------------------ quitting
@@ -626,7 +626,7 @@
   }
 
   let savedView = "records";
-  try { savedView = localStorage.getItem("clipnotate.view") || "records"; } catch (_) { /* storage unavailable */ }
+  try { savedView = localStorage.getItem("lazy-anki-language-cards.view") || "records"; } catch (_) { /* storage unavailable */ }
   showView(location.hash === "#json" ? "json" : savedView);
   setStatus();
   refresh();

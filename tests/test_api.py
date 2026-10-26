@@ -1,13 +1,13 @@
 import json
 
-from clipnotate.web import API_HEADER
+from lazy_anki_language_cards.web import API_HEADER
 
 
 def test_index_page(client):
     response = client.get("/")
     assert response.status_code == 200
     body = response.get_data(as_text=True)
-    assert "Clipnotate" in body and "Ctrl+Z" in body
+    assert "lazy-anki-language-cards" in body and "Ctrl+Z" in body
 
 
 def test_list_records(client, store):
@@ -144,5 +144,5 @@ def test_event_stream_delivers_changes_and_shutdown(app_env, client, store):
 def test_api_header_constant_matches_frontend():
     from pathlib import Path
 
-    js = (Path(__file__).resolve().parents[1] / "clipnotate" / "static" / "app.js").read_text()
+    js = (Path(__file__).resolve().parents[1] / "lazy_anki_language_cards" / "static" / "app.js").read_text()
     assert f'"{API_HEADER}": "1"' in js

@@ -220,7 +220,7 @@ class ScreenshotCapturer:
 
 
 def delete_screenshots(data_dir: Path) -> int:
-    """Delete the screenshots Clipnotate created in ``data_dir``; return how many were removed."""
+    """Delete the screenshots lazy-anki-language-cards created in ``data_dir``; return how many were removed."""
     directory = Path(data_dir) / SCREENSHOTS_DIRNAME
     removed = 0
     if not directory.is_dir():

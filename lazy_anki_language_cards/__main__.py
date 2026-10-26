@@ -1,4 +1,4 @@
-"""Entry point for ``python -m clipnotate``."""
+"""Entry point for ``python -m lazy_anki_language_cards``."""
 
 import sys
 
@@ -8,7 +8,7 @@ def _run() -> int:
         from .app import main
     except ImportError as exc:  # pragma: no cover - depends on the environment
         print(
-            f"clipnotate: missing Python dependency: {exc.name or exc}\n"
+            f"lazy-anki-language-cards: missing Python dependency: {exc.name or exc}\n"
             "Install the requirements first:\n"
             "    python3 -m pip install -r requirements.txt",
             file=sys.stderr,

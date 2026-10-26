@@ -5,9 +5,9 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from clipnotate.events import EventBus  # noqa: E402
-from clipnotate.storage import RecordStore  # noqa: E402
-from clipnotate.web import API_HEADER, create_app  # noqa: E402
+from lazy_anki_language_cards.events import EventBus  # noqa: E402
+from lazy_anki_language_cards.storage import RecordStore  # noqa: E402
+from lazy_anki_language_cards.web import API_HEADER, create_app  # noqa: E402
 
 
 @pytest.fixture

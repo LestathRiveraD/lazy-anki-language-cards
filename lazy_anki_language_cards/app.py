@@ -29,7 +29,7 @@ from .screenshot import (
 from .storage import RecordStore, StorageError
 from .web import create_app
 
-log = logging.getLogger("clipnotate")
+log = logging.getLogger("lazy_anki_language_cards")
 
 DEFAULT_PORT = 8765
 RECORDS_FILENAME = "records.json"
@@ -65,15 +65,15 @@ def ask_quit_choice(records_file: Path, count: int, ask=input) -> QuitChoice:
 
 
 def default_data_dir() -> Path:
-    if os.environ.get("CLIPNOTATE_DATA_DIR"):
-        return Path(os.environ["CLIPNOTATE_DATA_DIR"]).expanduser()
+    if os.environ.get("LAZY_ANKI_LANGUAGE_CARDS_DATA_DIR"):
+        return Path(os.environ["LAZY_ANKI_LANGUAGE_CARDS_DATA_DIR"]).expanduser()
     base = os.environ.get("XDG_DATA_HOME") or os.path.join(os.path.expanduser("~"), ".local", "share")
-    return Path(base) / "clipnotate"
+    return Path(base) / "lazy-anki-language-cards"
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        prog="clipnotate",
+        prog="lazy-anki-language-cards",
         description="Record copied text with a screenshot and annotate it in your browser.",
     )
     parser.add_argument(
@@ -81,7 +81,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=None,
         help="where records.json and screenshots/ are stored "
-        "(default: $CLIPNOTATE_DATA_DIR or ~/.local/share/clipnotate)",
+        "(default: $LAZY_ANKI_LANGUAGE_CARDS_DATA_DIR or ~/.local/share/lazy-anki-language-cards)",
     )
     parser.add_argument("--host", default="127.0.0.1", help="interface to listen on (default: 127.0.0.1)")
     parser.add_argument(
@@ -101,7 +101,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--screenshot-backend", choices=["auto", *BACKEND_NAMES], default="auto", help="screenshot tool to use"
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="log debug details and HTTP requests")
-    parser.add_argument("--version", action="version", version=f"clipnotate {__version__}")
+    parser.add_argument("--version", action="version", version=f"lazy-anki-language-cards {__version__}")
     args = parser.parse_args(argv)
     if args.interval < 0.05:
         parser.error("--interval must be at least 0.05 seconds")
@@ -134,7 +134,7 @@ def open_listening_socket(host: str, port: int | None) -> socket.socket:
     if port is not None:
         raise StartupError(
             f"Cannot listen on {host}:{port}: {last_error.strerror if last_error else 'unknown error'}.\n"
-            "Another program (or another Clipnotate) may be using it. Pick a different --port, "
+            "Another program (or another lazy-anki-language-cards) may be using it. Pick a different --port, "
             "or omit --port to choose a free one automatically."
         )
     raise StartupError(f"Cannot start the web server on {host}: {last_error}")
@@ -311,7 +311,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         application.start()
     except StartupError as exc:
-        print(f"clipnotate: error: {exc}", file=sys.stderr)
+        print(f"lazy-anki-language-cards: error: {exc}", file=sys.stderr)
         return 1
     try:
         if not args.no_browser:

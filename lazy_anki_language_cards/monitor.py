@@ -54,7 +54,7 @@ class ClipboardMonitor(threading.Thread):
         self._last: str | None = None
         self._primed = False
         self._last_read_error: str | None = None
-        # Texts the Clipnotate page is about to copy, mapped to an expiry time.
+        # Texts the lazy-anki-language-cards page is about to copy, mapped to an expiry time.
         self._ignored: dict[str, float] = {}
         self._ignored_lock = threading.Lock()
 
@@ -125,7 +125,7 @@ class ClipboardMonitor(threading.Thread):
         if text is None or not text.strip() or self._paused:
             return None
         if self._consume_ignored(text):
-            log.debug("Ignoring text copied from the Clipnotate page")
+            log.debug("Ignoring text copied from the lazy-anki-language-cards page")
             return None
         return self._record(text)
 

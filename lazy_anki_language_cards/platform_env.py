@@ -13,7 +13,7 @@ from typing import Mapping
 
 NO_SESSION_HELP = (
     "No graphical desktop session detected (neither DISPLAY nor WAYLAND_DISPLAY is set).\n"
-    "Run Clipnotate from a terminal inside your desktop session. If you start it from\n"
+    "Run lazy-anki-language-cards from a terminal inside your desktop session. If you start it from\n"
     "SSH, a systemd unit or cron, export the session variables first, for example:\n"
     "    export DISPLAY=:0            # X11\n"
     "    export WAYLAND_DISPLAY=wayland-0 XDG_SESSION_TYPE=wayland   # Wayland"

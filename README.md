@@ -5,8 +5,8 @@ takes a fullscreen screenshot and saves both to a JSON dataset. A local web page
 (`127.0.0.1` only) shows every record. On that page you can select parts of a
 sentence to annotate them, delete records, or undo the latest capture.
 
-The Python package and command are still called `clipnotate`, so you run it with
-`python -m clipnotate`.
+The Python package is called `lazy_anki_language_cards` (Python module names
+cannot contain hyphens), so you run it with `python -m lazy_anki_language_cards`.
 
 Linux first: fully supported on Ubuntu with X11 (Xorg), with Wayland support
 where the compositor allows it (see [Linux display servers](#linux-display-servers-x11-vs-wayland)).
@@ -30,7 +30,7 @@ On Ubuntu or Debian with an X11 session:
    ```
 4. **Start the app:**
    ```bash
-   .venv/bin/python -m clipnotate
+   .venv/bin/python -m lazy_anki_language_cards
    ```
    The page opens in your browser at `http://127.0.0.1:8765/`.
 5. **Copy some text** in any application. It appears on the page with a
@@ -94,11 +94,11 @@ screenshots). Everything else comes from the standard library.
 ## Running
 
 ```bash
-.venv/bin/python -m clipnotate
+.venv/bin/python -m lazy_anki_language_cards
 ```
 
 The terminal prints the URL, the data file and the screenshots folder, and the
-page opens in your default browser. Clipnotate listens on
+page opens in your default browser. lazy-anki-language-cards listens on
 `http://127.0.0.1:8765/`. If that port is busy, it picks a free one and prints
 which.
 
@@ -116,7 +116,7 @@ cat > "$DESKTOP_FILE" <<EOF
 Type=Application
 Name=lazy-anki-language-cards
 Comment=Capture copied text with a screenshot and annotate it
-Exec="$PWD/.venv/bin/python" -m clipnotate
+Exec="$PWD/.venv/bin/python" -m lazy_anki_language_cards
 Path=$PWD
 Icon=accessories-text-editor
 Terminal=false
@@ -141,10 +141,10 @@ Notes:
   **Quit** button on the page. Change it to `Terminal=true` to see the log and
   use Ctrl+C.
 - To add options, append them to the `Exec=` line, e.g.
-  `Exec="…/.venv/bin/python" -m clipnotate --port 8765`.
+  `Exec="…/.venv/bin/python" -m lazy_anki_language_cards --port 8765`.
 - To remove the launcher, delete the `.desktop` file(s).
 
-Useful options (`.venv/bin/python -m clipnotate --help` lists them all):
+Useful options (`.venv/bin/python -m lazy_anki_language_cards --help` lists them all):
 
 | Option | Purpose |
 | --- | --- |
@@ -164,13 +164,13 @@ Both ways of quitting ask whether to **keep or discard `records.json`**:
   file & quit** or **Cancel**. **Copy JSON first** copies the dataset before you
   decide. A checkbox also deletes the screenshots when discarding; it is off by
   default.
-- **Ctrl+C** in the terminal: Clipnotate stops capturing, then asks
+- **Ctrl+C** in the terminal: lazy-anki-language-cards stops capturing, then asks
   `Keep …/records.json (N records)? [K]eep / [d]iscard`. Pressing Enter
   keeps the file. If you discard, it also asks whether to delete the screenshots
   (default: no).
 
 "Discard" deletes `records.json`; the next start creates a fresh, empty one.
-Screenshot deletion only removes images Clipnotate created. The file is always
+Screenshot deletion only removes images lazy-anki-language-cards created. The file is always
 **kept** when the app is stopped without a terminal to ask in (e.g. `kill`,
 SIGTERM, no TTY), or if you press Ctrl+C again at the prompt.
 
@@ -201,7 +201,7 @@ SIGTERM, no TTY), or if you press Ctrl+C again at the prompt.
 - **JSON tab** shows `records.json` exactly as it is on disk and updates live.
   **Copy JSON** puts the whole file on the clipboard. You can also select part
   of it and press Ctrl+C. **Open raw file** opens it at `/records.json`.
-- **Copies made from the Clipnotate page are never recorded.** This covers
+- **Copies made from the lazy-anki-language-cards page are never recorded.** This covers
   Copy JSON and Ctrl+C on anything in the page. Before the text reaches the
   clipboard, the page tells the monitor to ignore it.
 - **Pause capture** ignores copies until you untick it. Text copied while paused
@@ -209,7 +209,7 @@ SIGTERM, no TTY), or if you press Ctrl+C again at the prompt.
   Clipboard contents marked as secrets by password managers (KeePassXC, KDE)
   are always skipped.
 
-Text already on the clipboard when Clipnotate starts is not recorded. Copying
+Text already on the clipboard when lazy-anki-language-cards starts is not recorded. Copying
 the same text again while it is still on the clipboard does not create a second
 record. Empty or whitespace-only text and non-text clipboard contents (images,
 files) are ignored.
@@ -228,11 +228,11 @@ open. `A` works only in the Records tab.
 
 ## Where the data lives
 
-Default data directory: `~/.local/share/clipnotate/` (it follows
-`$XDG_DATA_HOME`; override with `--data-dir` or `CLIPNOTATE_DATA_DIR`).
+Default data directory: `~/.local/share/lazy-anki-language-cards/` (it follows
+`$XDG_DATA_HOME`; override with `--data-dir` or `LAZY_ANKI_LANGUAGE_CARDS_DATA_DIR`).
 
 ```
-~/.local/share/clipnotate/
+~/.local/share/lazy-anki-language-cards/
 ├── records.json          # the dataset
 └── screenshots/
     ├── 2026-10-24_005300_001.png
@@ -260,18 +260,18 @@ first):
 - Each change is written immediately with an atomic replace: write a temp file,
   fsync, then rename. A crash leaves either the old or the new file, never a
   half-written one.
-- If `records.json` is not valid JSON, Clipnotate refuses to start and leaves it
+- If `records.json` is not valid JSON, lazy-anki-language-cards refuses to start and leaves it
   untouched. You can then fix it or move it away.
-- You can edit the file by hand while Clipnotate is stopped.
+- You can edit the file by hand while lazy-anki-language-cards is stopped.
 
 ## Linux display servers (X11 vs Wayland)
 
-Clipnotate polls the clipboard with a command-line tool and takes screenshots
+lazy-anki-language-cards polls the clipboard with a command-line tool and takes screenshots
 with a library or tool. All display-server specific code is isolated in
-`clipnotate/platform_env.py`, `clipboard.py` and `screenshot.py`.
+`lazy_anki_language_cards/platform_env.py`, `clipboard.py` and `screenshot.py`.
 
 **X11 / Xorg (fully supported).** Any X11 program may read the clipboard and the
-screen. Clipnotate uses `xclip` and `mss` (falling back to `scrot` or
+screen. lazy-anki-language-cards uses `xclip` and `mss` (falling back to `scrot` or
 ImageMagick `import` if installed). On Ubuntu, choose **"Ubuntu on Xorg"** on
 the login screen (gear icon) to get this mode.
 
@@ -286,7 +286,7 @@ applications from reading the clipboard or the screen in the background:
 
 X11 grabbers (`mss`, `scrot`, `import`) are not used on Wayland: they would
 only see Xwayland windows, or a black screen. If no working screenshot tool is
-found, Clipnotate refuses to start and says what to install.
+found, lazy-anki-language-cards refuses to start and says what to install.
 
 **Timing.** The clipboard is polled every 0.3 s (`--interval`). The screenshot
 is taken as soon as a change is detected and before the record is saved. It
@@ -327,9 +327,9 @@ screenshot file naming and port handling.
 ├── README.md
 ├── requirements.txt          # runtime: Flask, mss
 ├── requirements-dev.txt      # + pytest
-├── clipnotate/
+├── lazy_anki_language_cards/
 │   ├── __init__.py
-│   ├── __main__.py           # `python -m clipnotate`, dependency check
+│   ├── __main__.py           # `python -m lazy_anki_language_cards`, dependency check
 │   ├── app.py                # CLI, startup checks, lifecycle, keep/discard on quit
 │   ├── platform_env.py       # X11 / Wayland / desktop detection
 │   ├── clipboard.py          # xclip and wl-paste backends
@@ -364,5 +364,5 @@ screenshot file naming and port handling.
   that the word is a substring.
 - The server only accepts requests whose `Host` is `127.0.0.1:<port>` or
   `localhost:<port>`, which blocks DNS rebinding. Changes require an
-  `X-Clipnotate` header, so other websites cannot drive the API from your
+  `X-Lazy-Anki-Language-Cards` header, so other websites cannot drive the API from your
   browser.

@@ -4,9 +4,9 @@ from datetime import datetime
 
 import pytest
 
-from clipnotate.clipboard import ClipboardError, XclipClipboard
-from clipnotate.monitor import ClipboardMonitor
-from clipnotate.screenshot import ScreenshotCapturer, ScreenshotError
+from lazy_anki_language_cards.clipboard import ClipboardError, XclipClipboard
+from lazy_anki_language_cards.monitor import ClipboardMonitor
+from lazy_anki_language_cards.screenshot import ScreenshotCapturer, ScreenshotError
 
 
 class FakeClipboard:
@@ -228,7 +228,7 @@ def test_text_copied_from_page_is_ignored(setup, store):
 
 
 def test_ignore_expires(setup, store, monkeypatch):
-    import clipnotate.monitor as monitor_module
+    import lazy_anki_language_cards.monitor as monitor_module
 
     monitor, clipboard, *_ = setup
     now = [1000.0]
@@ -240,7 +240,7 @@ def test_ignore_expires(setup, store, monkeypatch):
 
 
 def test_delete_screenshots_only_removes_own_files(data_dir):
-    from clipnotate.screenshot import delete_screenshots
+    from lazy_anki_language_cards.screenshot import delete_screenshots
 
     capturer = ScreenshotCapturer(data_dir, [WritingBackend()])
     capturer.capture()
